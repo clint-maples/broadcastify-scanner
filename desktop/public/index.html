@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Broadcastify Scanner</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◉</span>
+      <h1>Broadcastify Scanner</h1>
+    </div>
+    <div class="master-controls">
+      <button type="button" id="btn-play-all" class="btn btn-primary">Play all</button>
+      <button type="button" id="btn-stop-all" class="btn btn-ghost">Stop all</button>
+      <label class="vol-label">
+        Master
+        <input type="range" id="master-volume" min="0" max="100" value="80" />
+      </label>
+      <button type="button" id="btn-settings" class="btn btn-ghost" title="Add feed">+ Add</button>
+    </div>
+  </header>
+
+  <p class="banner-hint">
+    Playing — scanners are often silent between transmissions.
+    If a card says <strong>blocked</strong>, click <strong>Play</strong> on that card (browser autoplay).
+    Free feeds may play a short Broadcastify preroll first.
+  </p>
+
+  <section id="settings-panel" class="settings hidden" aria-hidden="true">
+    <form id="add-feed-form" class="add-feed">
+      <input type="text" id="new-feed-id" placeholder="Feed ID" inputmode="numeric" pattern="[0-9]+" required />
+      <input type="text" id="new-feed-name" placeholder="Name (optional)" />
+      <button type="submit" class="btn btn-primary">Add feed</button>
+    </form>
+    <p class="hint">Tokens refresh on each play/reconnect. Streams are proxied via localhost to avoid CORS.</p>
+  </section>
+
+  <main id="feed-grid" class="feed-grid"></main>
+
+  <template id="feed-card-tpl">
+    <article class="feed-card" data-feed-id="">
+      <header class="card-head">
+        <div class="card-title-wrap">
+          <h2 class="feed-name"></h2>
+          <span class="feed-id"></span>
+        </div>
+        <span class="status" data-status="idle">idle</span>
+      </header>
+      <div class="card-actions">
+        <button type="button" class="btn btn-sm btn-play">Play</button>
+        <button type="button" class="btn btn-sm btn-stop" disabled>Stop</button>
+        <button type="button" class="btn btn-sm btn-mute" title="Mute">Mute</button>
+        <button type="button" class="btn btn-sm btn-reconnect" title="Refresh stream token">Reconnect</button>
+        <button type="button" class="btn btn-sm btn-remove" title="Remove feed">✕</button>
+      </div>
+      <label class="vol-label card-vol">
+        Vol
+        <input type="range" class="feed-volume" min="0" max="100" value="100" />
+      </label>
+      <div class="spectrum-wrap" title="Audio spectrum">
+        <canvas class="spectrum" width="200" height="36" aria-hidden="true"></canvas>
+      </div>
+      <audio class="feed-audio" playsinline preload="none"></audio>
+    </article>
+  </template>
+
+  <script src="/app.js"></script>
+</body>
+</html>

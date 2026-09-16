@@ -1,14 +1,48 @@
-﻿*.iml
+﻿# Android / Gradle
+*.iml
 .gradle/
-/local.properties
-/.idea/
+local.properties
+.idea/
+**/.idea/
 **/build/
-*.apk
+.cxx/
+.externalNativeBuild/
+captures/
 *.ap_
 *.dex
+*.hprof
+*.class
+
+# APKs — keep checked-in release builds only
+*.apk
+*.aab
+!releases/*.apk
+!releases/**/*.apk
+
+# Signing material (never commit a real upload key)
+*.jks
+*.keystore
+!debug.keystore
+
+# Python
 __pycache__/
 *.py[cod]
+*$py.class
+.Python
 .venv/
 venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# Node (legacy desktop server, if used)
 node_modules/
+npm-debug.log*
+
+# OS / editor
 .DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+*.log
