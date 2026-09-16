@@ -196,8 +196,7 @@ class FeedSession(
                 return DefaultAudioSink.Builder(context)
                     .setEnableFloatOutput(enableFloatOutput)
                     .setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams)
-                    .setOffloadMode(DefaultAudioSink.OFFLOAD_MODE_DISABLED)
-                    .setAudioProcessors(spectrum)
+                    .setAudioProcessors(arrayOf(spectrum))
                     .build()
             }
         }

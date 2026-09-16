@@ -162,7 +162,6 @@ private fun TopBar(
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            itemVerticalAlignment = Alignment.CenterVertically,
         ) {
             PrimaryButton("Play all", onPlayAll)
             GhostButton("Stop all", onStopAll)
