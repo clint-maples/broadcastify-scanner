@@ -1,13 +1,14 @@
-﻿# Broadcastify Scanner
+# Broadcastify Scanner
+
+**Current version:** 0.1.0  
+**Download:** [Broadcastify Scanner 0.1.0 APK](https://github.com/clint-maples/broadcastify-scanner/releases/download/0.1.0/broadcastify-scanner-0.1.0.apk)
 
 Local multi-feed Broadcastify radio / fire scanner. Clint used a Python + web build for the Floriston, CA fire. This repo ships both:
 
 1. **Android app** (primary) — simultaneous feeds, per-feed controls, green→yellow spectrum
 2. **Windows / desktop** Python + web reference under [`desktop/`](desktop/)
 
-No Broadcastify page chrome or ads in the UI. Private / unlicensed, same as Clint’s other personal apps — there is no `LICENSE` file.
-
-**Version:** Android `0.1.0` (`versionCode` 1)
+No Broadcastify page chrome or ads in the UI. Private / unlicensed, same as Clint's other personal apps — there is no `LICENSE` file.
 
 ## Default feeds
 
@@ -29,7 +30,7 @@ Kotlin + Jetpack Compose + Media3 / ExoPlayer. Each feed is its own player so th
 
 ### Install the APK
 
-1. Copy [`releases/broadcastify-scanner-0.1.0.apk`](releases/broadcastify-scanner-0.1.0.apk) to the phone (Drive, USB, Messages, etc.).
+1. Copy [broadcastify-scanner-0.1.0.apk](https://github.com/clint-maples/broadcastify-scanner/releases/download/0.1.0/broadcastify-scanner-0.1.0.apk) to the phone (Drive, USB, Messages, etc.).
 2. On the phone: **Settings → Security** (or **Apps**) → allow **Install unknown apps** for the app you use to open the file.
 3. Open the APK and install.
 4. Launch **Broadcastify Scanner**, grant notifications if you want the “Listening” pill while it runs in the background, then tap **Play all**.
