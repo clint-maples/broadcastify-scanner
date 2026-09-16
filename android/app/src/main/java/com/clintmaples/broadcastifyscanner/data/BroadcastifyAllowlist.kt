@@ -8,8 +8,8 @@ import java.io.IOException
 
 /**
  * Fail-closed host allowlist for popout scrapes and HLS playback.
- * Only `https://broadcastify.com` and `https://*.broadcastify.com` on port 443,
- * with no userinfo. Redirect targets are re-checked before OkHttp follows them.
+ * HTTPS only, apex or subdomain of broadcastify.com, port 443, no userinfo.
+ * Redirect targets are re-checked before OkHttp follows them.
  */
 object BroadcastifyAllowlist {
     private const val APEX = "broadcastify.com"
