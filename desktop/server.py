@@ -240,7 +240,7 @@ def main() -> None:
         raise SystemExit(f"Missing public/ directory at {PUBLIC}")
 
     httpd = ThreadingHTTPServer((HOST, PORT), Handler)
-    print(f"Broadcastify scanner listening at http://{HOST}:{PORT}", flush=True)
+    print(f"Somersett Fire Radio Scanner listening at http://{HOST}:{PORT}", flush=True)
     print(f"Default feeds: {', '.join(f['feedId'] for f in DEFAULT_FEEDS)}", flush=True)
     print("Press Ctrl+C to stop.", flush=True)
     try:

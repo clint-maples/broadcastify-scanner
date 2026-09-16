@@ -1,6 +1,6 @@
 # Android app
 
-Assembleable Gradle project. Application id `com.clintmaples.broadcastifyscanner`, **versionName 0.1.0**, **versionCode 1**.
+Assembleable Gradle project. Application id `com.clintmaples.broadcastifyscanner`, **versionName 0.2.0**, **versionCode 2**.
 
 ```bash
 ./gradlew assembleRelease
