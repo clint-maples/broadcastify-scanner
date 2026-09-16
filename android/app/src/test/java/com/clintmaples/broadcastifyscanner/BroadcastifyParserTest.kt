@@ -68,4 +68,40 @@ class BroadcastifyParserTest {
     fun parsePopout_missingHlsUrl_throws() {
         BroadcastifyParser.parsePopout("<html><title>Nope</title></html>", "14826")
     }
+
+    @Test(expected = IllegalStateException::class)
+    fun parsePopout_rejectsNonAllowlistedHlsUrl() {
+        val html = """
+            ListenPlayer.init('listenPlayerMount', {
+                feedId: 14826,
+                hlsUrl: "https://evil.example/fake.m3u8",
+                feedName: "Nope"
+            });
+        """.trimIndent()
+        BroadcastifyParser.parsePopout(html, "14826")
+    }
+
+    @Test(expected = IllegalStateException::class)
+    fun parsePopout_rejectsHttpHlsUrl() {
+        val html = """
+            ListenPlayer.init('listenPlayerMount', {
+                feedId: 14826,
+                hlsUrl: "http://hls-o2.broadcastify.com/t/v1.PAYLOAD.SIG/feed/14826/playlist.m3u8",
+                feedName: "Nope"
+            });
+        """.trimIndent()
+        BroadcastifyParser.parsePopout(html, "14826")
+    }
+
+    @Test(expected = IllegalStateException::class)
+    fun parsePopout_rejectsLookalikeHost() {
+        val html = """
+            ListenPlayer.init('listenPlayerMount', {
+                feedId: 14826,
+                hlsUrl: "https://hls-o2.broadcastify.com.evil.com/t/v1.PAYLOAD.SIG/feed/14826/playlist.m3u8",
+                feedName: "Nope"
+            });
+        """.trimIndent()
+        BroadcastifyParser.parsePopout(html, "14826")
+    }
 }

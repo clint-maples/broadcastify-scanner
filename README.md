@@ -1,14 +1,16 @@
 # Somersett Fire Radio Scanner
 
-**Current version:** 0.2.0  
-**Download:** [Somersett Fire Radio Scanner 0.2.0 APK](https://github.com/clint-maples/broadcastify-scanner/releases/download/0.2.0/broadcastify-scanner-0.2.0.apk)
+**Current version:** 0.3.0 (Android security release)  
+**Repo:** [github.com/clint-maples/somersett-fire-radio-scanner](https://github.com/clint-maples/somersett-fire-radio-scanner)
 
 Local multi-feed Broadcastify radio / fire scanner. Clint used a Python + web build for the Floriston, CA fire. This repo ships both:
 
 1. **Android app** (primary) — simultaneous feeds, per-feed controls, green→yellow spectrum
 2. **Windows / desktop** Python + web reference under [`desktop/`](desktop/)
 
-No Broadcastify page chrome or ads in the UI.
+No Broadcastify page chrome or ads in the UI. **No Broadcastify login.**
+
+0.1.0 and 0.2.0 sideload APKs were signed with the Android **debug** certificate. **0.3.0 must be a fresh install** after you sign with a dedicated off-repo keystore (debug-signed copies cannot be updated in place). Do not keep those older APKs.
 
 ## Default feeds
 
@@ -26,16 +28,19 @@ Add or remove feeds anytime. IDs are the numbers in `https://www.broadcastify.co
 
 ## Android
 
-Kotlin + Jetpack Compose + Media3 / ExoPlayer. Each feed is its own player so they can run at the same time.
+Kotlin + Jetpack Compose + Media3 / ExoPlayer. Each feed is its own player so they can run at the same time. Display name: **Somersett Fire Radio Scanner**.
 
-### Install the APK
+### Install a signed APK
 
-1. Copy [broadcastify-scanner-0.2.0.apk](https://github.com/clint-maples/broadcastify-scanner/releases/download/0.2.0/broadcastify-scanner-0.2.0.apk) to the phone (Drive, USB, Messages, etc.).
+Publish signed artifacts on [GitHub Releases](https://github.com/clint-maples/somersett-fire-radio-scanner/releases) after you have a release keystore. This git tree does **not** contain APKs or keystores.
+
+1. Download the signed `0.3.0` (or later) APK from Releases — or build one locally (below).
 2. On the phone: **Settings → Security** (or **Apps**) → allow **Install unknown apps** for the app you use to open the file.
-3. Open the APK and install.
-4. Launch **Somersett Fire Radio Scanner**, grant notifications if you want the “Listening” pill while it runs in the background, then tap **Play all**.
+3. Uninstall any 0.1.0 / 0.2.0 debug-signed copy first.
+4. Open the APK and install.
+5. Launch **Somersett Fire Radio Scanner**, grant notifications if you want the “Listening” pill while it runs in the background, then tap **Play all**.
 
-The app scrapes a **fresh HLS token** on every play / reconnect. It does not embed JWTs.
+The app scrapes a **fresh HLS token** on every play / reconnect. It does not embed JWTs. Playback URLs are allowlisted to `https` + `broadcastify.com` / `*.broadcastify.com`.
 
 ### What you can do
 
@@ -61,10 +66,33 @@ cd android
 ./gradlew assembleRelease
 ```
 
-APK output: `android/app/build/outputs/apk/release/app-release-unsigned.apk`  
-A copy of the built artifact is also kept in `releases/` when CI/local packaging is run.
+Without a release keystore, Gradle produces an **unsigned** `app-release-unsigned.apk`. That is for compile checks only — do not sideload it as a “release.”
 
 Debug builds use application id `com.clintmaples.broadcastifyscanner.debug`.
+
+### Release signing (off-repo keystore)
+
+Release builds never use the Android Debug certificate. Sign with a keystore that is **not** in this repository.
+
+1. Generate a PKCS12 keystore on a machine you control (not in the repo, not in chat, not in backups you share):
+
+```bash
+mkdir -p "$HOME/keys"
+keytool -genkeypair -v \
+  -keystore "$HOME/keys/somersett-fire-radio-scanner-release.keystore" \
+  -alias somersett \
+  -keyalg RSA -keysize 2048 -validity 10000 \
+  -storetype PKCS12
+```
+
+2. Copy [`android/keystore.properties.example`](android/keystore.properties.example) to `android/keystore.properties` (gitignored) and fill in `storeFile`, `storePassword`, `keyAlias`, and `keyPassword`.  
+   Or export `RELEASE_STORE_FILE`, `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, and `RELEASE_KEY_PASSWORD`.
+
+3. `./gradlew assembleRelease` then writes `android/app/build/outputs/apk/release/app-release.apk`.
+
+4. Publish the APK on GitHub Releases and record the **signing-cert SHA-256** and APK SHA-256 in the release notes.
+
+Never commit `*.keystore`, `*.jks`, `keystore.properties`, or APKs.
 
 ---
 
@@ -94,7 +122,7 @@ Then open **http://127.0.0.1:3847** and click **Play all** (a click is required 
 3. Unzip, run `start.bat` or `python server.py` / `py server.py`.
 4. Browse to http://127.0.0.1:3847 → **Play all**.
 
-No installer and no Node. A later PyInstaller one-file `.exe` is optional; not required for 0.2.0.
+No installer and no Node. A later PyInstaller one-file `.exe` is optional; not required for 0.3.0.
 
 Desktop UI details (autoplay, Reconnect, ＋ add feed) live in [`desktop/README.md`](desktop/README.md).
 
@@ -108,7 +136,8 @@ Both clients do the same scrape as `desktop/server.py`:
 
 1. `GET https://www.broadcastify.com/listen/feed/popout.php?feedId=<id>` with a desktop Chrome User-Agent.
 2. Parse `hlsUrl` / `feedName` from `ListenPlayer.init(...)`.
-3. Play that URL as HLS.
+3. Android rejects the URL unless it is `https` on `broadcastify.com` / `*.broadcastify.com`. Off-origin redirects are not followed.
+4. Play that URL as HLS.
 
 Current URLs look like:
 
@@ -121,6 +150,7 @@ The `v1.<payload>.<sig>` segment is JWT-shaped. The payload’s `t` field is **i
 | Fresh token | Popout scrape on each Play / Reconnect | `GET /api/stream/<feedId>` |
 | Expiry | Player 401/403 / manifest errors → wait 4s → scrape again | hls.js fatal error → Reconnect / auto-retry 4s |
 | CDN headers | ExoPlayer `User-Agent`, `Referer`, `Origin` | Local `/proxy` rewrites playlists and adds the same headers (avoids browser CORS) |
+| Host allowlist | `https` + `*.broadcastify.com` (fail closed) | Desktop proxy is localhost-only (not covered by the Android review) |
 
 ---
 
@@ -143,8 +173,10 @@ Android: mute a card and leave the spectrum running. Desktop: same (Web Audio an
 ```
 android/     Kotlin + Compose + Media3 app (assemble here)
 desktop/     Python stdlib server + public/ UI (hls.js)
-releases/    Installable APK for 0.2.0
+releases/    Placeholder only — APKs are not committed
 ```
+
+Security notes for Android: [`SECURITY_REVIEW.md`](SECURITY_REVIEW.md).
 
 ---
 
