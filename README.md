@@ -1,6 +1,8 @@
 # Somersett Fire Radio Scanner
 
-**Current version:** 0.3.0 (Android security release)  
+**Current version:** 0.2.0  
+**Download:** [Somersett Fire Radio Scanner 0.2.0 APK](https://github.com/clint-maples/somersett-fire-radio-scanner/releases/download/0.2.0/broadcastify-scanner-0.2.0.apk)
+
 **Repo:** [github.com/clint-maples/somersett-fire-radio-scanner](https://github.com/clint-maples/somersett-fire-radio-scanner)
 
 Local multi-feed Broadcastify radio / fire scanner. Clint used a Python + web build for the Floriston, CA fire. This repo ships both:
