@@ -1,14 +1,14 @@
-# Broadcastify Scanner
+# Somersett Fire Radio Scanner
 
-**Current version:** 0.1.0  
-**Download:** [Broadcastify Scanner 0.1.0 APK](https://github.com/clint-maples/broadcastify-scanner/releases/download/0.1.0/broadcastify-scanner-0.1.0.apk)
+**Current version:** 0.2.0  
+**Download:** [Somersett Fire Radio Scanner 0.2.0 APK](https://github.com/clint-maples/broadcastify-scanner/releases/download/0.2.0/broadcastify-scanner-0.2.0.apk)
 
 Local multi-feed Broadcastify radio / fire scanner. Clint used a Python + web build for the Floriston, CA fire. This repo ships both:
 
 1. **Android app** (primary) — simultaneous feeds, per-feed controls, green→yellow spectrum
 2. **Windows / desktop** Python + web reference under [`desktop/`](desktop/)
 
-No Broadcastify page chrome or ads in the UI. Private / unlicensed, same as Clint's other personal apps — there is no `LICENSE` file.
+No Broadcastify page chrome or ads in the UI.
 
 ## Default feeds
 
@@ -30,10 +30,10 @@ Kotlin + Jetpack Compose + Media3 / ExoPlayer. Each feed is its own player so th
 
 ### Install the APK
 
-1. Copy [broadcastify-scanner-0.1.0.apk](https://github.com/clint-maples/broadcastify-scanner/releases/download/0.1.0/broadcastify-scanner-0.1.0.apk) to the phone (Drive, USB, Messages, etc.).
+1. Copy [broadcastify-scanner-0.2.0.apk](https://github.com/clint-maples/broadcastify-scanner/releases/download/0.2.0/broadcastify-scanner-0.2.0.apk) to the phone (Drive, USB, Messages, etc.).
 2. On the phone: **Settings → Security** (or **Apps**) → allow **Install unknown apps** for the app you use to open the file.
 3. Open the APK and install.
-4. Launch **Broadcastify Scanner**, grant notifications if you want the “Listening” pill while it runs in the background, then tap **Play all**.
+4. Launch **Somersett Fire Radio Scanner**, grant notifications if you want the “Listening” pill while it runs in the background, then tap **Play all**.
 
 The app scrapes a **fresh HLS token** on every play / reconnect. It does not embed JWTs.
 
@@ -94,7 +94,7 @@ Then open **http://127.0.0.1:3847** and click **Play all** (a click is required 
 3. Unzip, run `start.bat` or `python server.py` / `py server.py`.
 4. Browse to http://127.0.0.1:3847 → **Play all**.
 
-No installer and no Node. A later PyInstaller one-file `.exe` is optional; not required for 0.1.0.
+No installer and no Node. A later PyInstaller one-file `.exe` is optional; not required for 0.2.0.
 
 Desktop UI details (autoplay, Reconnect, ＋ add feed) live in [`desktop/README.md`](desktop/README.md).
 
@@ -143,7 +143,7 @@ Android: mute a card and leave the spectrum running. Desktop: same (Web Audio an
 ```
 android/     Kotlin + Compose + Media3 app (assemble here)
 desktop/     Python stdlib server + public/ UI (hls.js)
-releases/    Installable APK for 0.1.0
+releases/    Installable APK for 0.2.0
 ```
 
 ---
@@ -154,3 +154,9 @@ releases/    Installable APK for 0.1.0
 - **Desktop:** Python 3.10+, modern browser (Chrome / Edge / Firefox with MediaSource, or Safari native HLS). Bound to localhost only.
 
 Not affiliated with Broadcastify / RadioReference. Personal listener for feeds you already have the IDs for.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE). Copyright © 2026 Clint Maples.

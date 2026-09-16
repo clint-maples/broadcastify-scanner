@@ -39,12 +39,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.clintmaples.broadcastifyscanner.R
 import com.clintmaples.broadcastifyscanner.data.FeedStatus
 import com.clintmaples.broadcastifyscanner.data.FeedUiState
 import com.clintmaples.broadcastifyscanner.data.ScannerUiState
@@ -152,7 +154,7 @@ private fun TopBar(
             Text("◉", color = Accent, fontSize = 18.sp)
             Spacer(Modifier.width(8.dp))
             Text(
-                "Broadcastify Scanner",
+                stringResource(R.string.app_name),
                 color = TextPrimary,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 17.sp,
