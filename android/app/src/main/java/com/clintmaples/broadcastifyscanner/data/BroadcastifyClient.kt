@@ -11,15 +11,18 @@ object BroadcastifyHttp {
             "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     const val REFERER = "https://www.broadcastify.com/"
     const val ORIGIN = "https://www.broadcastify.com"
-}
 
-class BroadcastifyClient(
-    private val http: OkHttpClient = OkHttpClient.Builder()
+    val client: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(20, TimeUnit.SECONDS)
         .readTimeout(20, TimeUnit.SECONDS)
         .followRedirects(true)
         .followSslRedirects(true)
-        .build(),
+        .addNetworkInterceptor(BroadcastifyAllowlist.RedirectGuard)
+        .build()
+}
+
+class BroadcastifyClient(
+    private val http: OkHttpClient = BroadcastifyHttp.client,
 ) {
     fun fetchFeedMeta(feedId: String): FeedMeta {
         val id = feedId.filter { it.isDigit() }
@@ -34,6 +37,9 @@ class BroadcastifyClient(
             .build()
 
         http.newCall(request).execute().use { response ->
+            if (!BroadcastifyAllowlist.isAllowedUrl(response.request.url)) {
+                throw IOException("Rejected off-origin popout response")
+            }
             if (!response.isSuccessful) {
                 throw IOException("Broadcastify returned ${response.code}")
             }

@@ -27,10 +27,11 @@ object BroadcastifyParser {
             ?: throw IllegalStateException(
                 "Could not find hlsUrl in popout page (feed may be offline or page changed)",
             )
-        val hlsUrl = unescapeJsonish(hlsMatch.groupValues[1])
-        if (hlsUrl.isBlank()) {
+        val rawHlsUrl = unescapeJsonish(hlsMatch.groupValues[1])
+        if (rawHlsUrl.isBlank()) {
             throw IllegalStateException("Empty hlsUrl in popout page")
         }
+        val hlsUrl = BroadcastifyAllowlist.requireAllowedHlsUrl(rawHlsUrl)
 
         val name = NAME_RE.find(html)?.let { unescapeJsonish(it.groupValues[1]) }
             ?: TITLE_RE.find(html)?.groupValues?.get(1)?.trim()

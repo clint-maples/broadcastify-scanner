@@ -7,12 +7,13 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MimeTypes
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
-import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.audio.AudioSink
 import androidx.media3.exoplayer.audio.DefaultAudioSink
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import com.clintmaples.broadcastifyscanner.data.BroadcastifyAllowlist
 import com.clintmaples.broadcastifyscanner.data.BroadcastifyClient
 import com.clintmaples.broadcastifyscanner.data.BroadcastifyHttp
 import com.clintmaples.broadcastifyscanner.data.Feed
@@ -161,8 +162,9 @@ class FeedSession(
                 name = meta.name
             }
             val exo = ensurePlayer()
+            val hlsUrl = BroadcastifyAllowlist.requireAllowedHlsUrl(meta.hlsUrl)
             val item = MediaItem.Builder()
-                .setUri(meta.hlsUrl)
+                .setUri(hlsUrl)
                 .setMimeType(MimeTypes.APPLICATION_M3U8)
                 .setLiveConfiguration(
                     MediaItem.LiveConfiguration.Builder()
@@ -200,11 +202,8 @@ class FeedSession(
                     .build()
             }
         }
-        val httpFactory = DefaultHttpDataSource.Factory()
+        val httpFactory = OkHttpDataSource.Factory(BroadcastifyHttp.client)
             .setUserAgent(BroadcastifyHttp.USER_AGENT)
-            .setAllowCrossProtocolRedirects(true)
-            .setConnectTimeoutMs(15_000)
-            .setReadTimeoutMs(15_000)
             .setDefaultRequestProperties(
                 mapOf(
                     "Referer" to BroadcastifyHttp.REFERER,

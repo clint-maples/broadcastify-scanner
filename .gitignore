@@ -13,16 +13,15 @@ captures/
 *.hprof
 *.class
 
-# APKs — keep checked-in release builds only
+# APKs — publish via GitHub Releases only, never commit binaries
 *.apk
 *.aab
-!releases/*.apk
-!releases/**/*.apk
 
-# Signing material (never commit a real upload key)
+# Signing material (never commit a real upload key or debug.keystore)
 *.jks
 *.keystore
-!debug.keystore
+keystore.properties
+**/keystore.properties
 
 # Python
 __pycache__/
