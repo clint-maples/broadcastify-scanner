@@ -1,7 +1,7 @@
 # Somersett Fire Radio Scanner
 
-**Current version:** 0.2.0  
-**Download:** [Somersett Fire Radio Scanner 0.2.0 APK](https://github.com/clint-maples/somersett-fire-radio-scanner/releases/download/0.2.0/broadcastify-scanner-0.2.0.apk)
+**Current version:** 0.3.0  
+**Download:** [Somersett Fire Radio Scanner 0.3.0 APK](https://github.com/clint-maples/somersett-fire-radio-scanner/releases/download/0.3.0/somersett-fire-radio-scanner-0.3.0.apk)
 
 **Repo:** [github.com/clint-maples/somersett-fire-radio-scanner](https://github.com/clint-maples/somersett-fire-radio-scanner)
 
@@ -12,7 +12,7 @@ Local multi-feed Broadcastify radio / fire scanner. Clint used a Python + web bu
 
 No Broadcastify page chrome or ads in the UI. **No Broadcastify login.**
 
-0.1.0 and 0.2.0 sideload APKs were signed with the Android **debug** certificate. **0.3.0 must be a fresh install** after you sign with a dedicated off-repo keystore (debug-signed copies cannot be updated in place). Do not keep those older APKs.
+0.1.0 and 0.2.0 sideload APKs were signed with the Android **debug** certificate. **0.3.0 is already published as a release-signed APK** and requires a fresh install — debug-signed copies cannot be updated in place. Uninstall those older APKs first.
 
 ## Default feeds
 
@@ -34,13 +34,18 @@ Kotlin + Jetpack Compose + Media3 / ExoPlayer. Each feed is its own player so th
 
 ### Install a signed APK
 
-Publish signed artifacts on [GitHub Releases](https://github.com/clint-maples/somersett-fire-radio-scanner/releases) after you have a release keystore. This git tree does **not** contain APKs or keystores.
+The published **0.3.0** APK on [GitHub Releases](https://github.com/clint-maples/somersett-fire-radio-scanner/releases) is already release-signed. This git tree does **not** contain APKs or keystores.
 
-1. Download the signed `0.3.0` (or later) APK from Releases — or build one locally (below).
+1. Download the signed `0.3.0` APK from the [top of this README](#somersett-fire-radio-scanner) or from Releases — or build one locally (below).
 2. On the phone: **Settings → Security** (or **Apps**) → allow **Install unknown apps** for the app you use to open the file.
 3. Uninstall any 0.1.0 / 0.2.0 debug-signed copy first.
 4. Open the APK and install.
 5. Launch **Somersett Fire Radio Scanner**, grant notifications if you want the “Listening” pill while it runs in the background, then tap **Play all**.
+
+Published 0.3.0 fingerprints:
+
+- Signing-cert SHA-256: `bac9180d6c87df96ed6eb246e552f8f83f4e690ee6048bd239108174f52d73bb`
+- APK SHA-256: `b9c3b307cc214c0dbd9eaeb6934ebfb44fc97fb8147f142d75d8505adaba9a29`
 
 The app scrapes a **fresh HLS token** on every play / reconnect. It does not embed JWTs. Playback URLs are allowlisted to `https` + `broadcastify.com` / `*.broadcastify.com`.
 
